@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+  <config>
+    <inlinehelp button="show" />
+  </config>
+
+  <field
+    name="pitch"
+    type="text"
+    label="MOD_PANNELLUM_FIELD_HOTSPOT_PITCH"
+    description="MOD_PANNELLUM_FIELD_HOTSPOT_PITCH_DESC"
+    required="true"
+    hint="z.B. 10.5, -20.3"
+  />
+
+  <field
+    name="yaw"
+    type="text"
+    label="MOD_PANNELLUM_FIELD_HOTSPOT_YAW"
+    description="MOD_PANNELLUM_FIELD_HOTSPOT_YAW_DESC"
+    required="true"
+    hint="z.B. -45.3, 180.0"
+  />
+
+  <field
+    name="type"
+    type="list"
+    label="MOD_PANNELLUM_FIELD_HOTSPOT_TYPE"
+    description="MOD_PANNELLUM_FIELD_HOTSPOT_TYPE_DESC"
+    default="scene"
+  >
+    <option value="scene">MOD_PANNELLUM_HOTSPOT_TYPE_SCENE</option>
+    <option value="info">MOD_PANNELLUM_HOTSPOT_TYPE_INFO</option>
+  </field>
+
+  <field
+    name="target"
+    type="text"
+    label="MOD_PANNELLUM_FIELD_HOTSPOT_TARGET_SCENE"
+    description="MOD_PANNELLUM_FIELD_HOTSPOT_TARGET_SCENE_DESC"
+    showon="type:scene"
+    hint="z.B. wohnzimmer, kueche"
+  />
+
+  <field
+    name="text"
+    type="editor"
+    label="MOD_PANNELLUM_FIELD_HOTSPOT_TEXT"
+    description="MOD_PANNELLUM_FIELD_HOTSPOT_TEXT_DESC"
+    filter="safehtml"
+    buttons="true"
+    hide="pagebreak,readmore"
+    rows="10"
+    cols="50"
+  />
+
+  <field
+    name="box_width"
+    type="number"
+    label="MOD_PANNELLUM_FIELD_BOX_WIDTH"
+    description="MOD_PANNELLUM_FIELD_BOX_WIDTH_DESC"
+    default="40"
+    min="20"
+    max="80"
+    step="5"
+    showon="type:info"
+    hint="20-80"
+  />
+
+  <field
+    name="box_height"
+    type="number"
+    label="MOD_PANNELLUM_FIELD_BOX_HEIGHT"
+    description="MOD_PANNELLUM_FIELD_BOX_HEIGHT_DESC"
+    default="40"
+    min="20"
+    max="80"
+    step="5"
+    showon="type:info"
+    hint="20-80"
+  />
+
+  <field
+    name="icon"
+    type="text"
+    label="MOD_PANNELLUM_FIELD_HOTSPOT_ICON"
+    description="MOD_PANNELLUM_FIELD_HOTSPOT_ICON_DESC"
+    hint="z.B. icon-arrow-right, icon-info, icon-star"
+    default="icon-circle"
+  />
+
+  <field
+    name="icon_color"
+    type="color"
+    label="MOD_PANNELLUM_FIELD_ICON_COLOR"
+    description="MOD_PANNELLUM_FIELD_ICON_COLOR_DESC"
+    default="#0066cc"
+  />
+
+  <field
+    name="icon_size"
+    type="number"
+    label="MOD_PANNELLUM_FIELD_ICON_SIZE"
+    description="MOD_PANNELLUM_FIELD_ICON_SIZE_DESC"
+    default="20"
+    min="12"
+    max="60"
+    step="2"
+    hint="12-60"
+  />
+</form>

@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="site" method="upgrade" version="5.0">
+    <name>MOD_PANNELLUM</name>
+    <author>Niko Winckel</author>
+    <authorEmail>joomla@nik-o-mat.de</authorEmail>
+    <authorUrl>https://nik-o-mat.de</authorUrl>
+    <copyright>(C) 2025 Niko Winckel. All rights reserved.</copyright>
+    <license>GNU General Public License version 3 or later</license>
+    <creationDate>2026-03-29</creationDate>
+    <version>1.0.0</version>
+    <description>MOD_PANNELLUM_XML_DESCRIPTION</description>
+    <namespace path="src">ModPannellum</namespace>
+
+    <files>
+        <filename module="mod_pannellum">mod_pannellum.php</filename>
+        <filename>mod_pannellum.xml</filename>
+        <folder>language</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+        <folder>forms</folder>
+    </files>
+
+    <media folder="media/mod_pannellum" destination="mod_pannellum">
+        <filename>pannellum.js</filename>
+        <filename>pannellum.css</filename>
+        <filename>hotspot-editor.js</filename>
+        <filename>hotspot-editor.css</filename>
+        <filename>mod_pannellum_admin.css</filename>
+        <filename>mod_pannellum_info_hotspots.css</filename>
+        <filename>mod_pannellum_init.js</filename>
+        <filename>mod_pannellum_validation.js</filename>
+        <filename>LICENSE.txt</filename>
+    </media>
+
+    <!-- Sprachdateien für Backend-Konfiguration und System -->
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_pannellum.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_pannellum.sys.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_pannellum.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_pannellum.sys.ini</language>
+    </languages>
+
+    <updateservers>
+        <server type="extension" name="Pannellum 360° Viewer Updates">https://raw.githubusercontent.com/jamfx/mod_pannellum/main/update.xml</server>
+    </updateservers>
+
+    <config>
+        <fields name="params" addfieldpath="/modules/mod_pannellum/src/Field">
+            <fieldset name="basic" label="MOD_PANNELLUM_FIELDSET_BASIC">
+                <!-- Modus -->
+                <field
+                    name="mode"
+                    type="list"
+                    label="MOD_PANNELLUM_MODE_LABEL"
+                    description="MOD_PANNELLUM_MODE_DESC"
+                    default="single"
+                >
+                    <option value="single">MOD_PANNELLUM_MODE_SINGLE</option>
+                    <option value="multi">MOD_PANNELLUM_MODE_MULTI</option>
+                </field>
+
+                <!-- SINGLE MODE -->
+                <field
+                    name="single_image"
+                    type="media"
+                    label="MOD_PANNELLUM_SCENE_IMAGE"
+                    description="MOD_PANNELLUM_SINGLE_IMAGE_DESC"
+                    preview="true"
+                    showon="mode:single"
+                />
+
+                <!-- Hotspot-Editor Button für Single Mode -->
+                <field
+                    name="single_hotspot_editor_button"
+                    type="hotspoteditorbutton"
+                    label="MOD_PANNELLUM_HOTSPOT_EDITOR_OPEN"
+                    showon="mode:single"
+                />
+
+                <field
+                    name="single_yaw"
+                    type="number"
+                    label="MOD_PANNELLUM_FIELD_YAW"
+                    description="MOD_PANNELLUM_YAW_DESC"
+                    step="0.1"
+                    default="0"
+                    showon="mode:single"
+                    hint="-180 bis 180"
+                />
+
+                <field
+                    name="single_pitch"
+                    type="number"
+                    label="MOD_PANNELLUM_FIELD_PITCH"
+                    description="MOD_PANNELLUM_PITCH_DESC"
+                    step="0.1"
+                    default="0"
+                    showon="mode:single"
+                    hint="-90 bis 90"
+                />
+
+                <field
+                    name="single_hfov"
+                    type="number"
+                    label="MOD_PANNELLUM_FIELD_HFOV"
+                    description="MOD_PANNELLUM_HFOV_DESC"
+                    step="0.1"
+                    default="100"
+                    min="30"
+                    max="120"
+                    showon="mode:single"
+                    hint="30-120"
+                />
+
+                <field
+                    name="single_autoload"
+                    type="radio"
+                    label="MOD_PANNELLUM_FIELD_AUTOLOAD"
+                    description="MOD_PANNELLUM_AUTOLOAD_DESC"
+                    default="1"
+                    showon="mode:single"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <!-- BILDBESCHREIBUNG FÜR SINGLE MODE -->
+                <field
+                    name="single_show_description"
+                    type="radio"
+                    label="MOD_PANNELLUM_SHOW_DESCRIPTION"
+                    description="MOD_PANNELLUM_SHOW_DESCRIPTION_DESC"
+                    default="0"
+                    showon="mode:single"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="single_description_text"
+                    type="text"
+                    label="MOD_PANNELLUM_DESCRIPTION_TEXT"
+                    description="MOD_PANNELLUM_DESCRIPTION_TEXT_DESC"
+                    default=""
+                    showon="mode:single[AND]single_show_description:1"
+                />
+
+                <field
+                    name="single_description_position"
+                    type="list"
+                    label="MOD_PANNELLUM_DESCRIPTION_POSITION"
+                    description="MOD_PANNELLUM_DESCRIPTION_POSITION_DESC"
+                    default="bottom"
+                    showon="mode:single[AND]single_show_description:1"
+                >
+                    <option value="top">MOD_PANNELLUM_POSITION_TOP</option>
+                    <option value="bottom">MOD_PANNELLUM_POSITION_BOTTOM</option>
+                </field>
+
+                <field
+                    name="single_description_text_align"
+                    type="list"
+                    label="MOD_PANNELLUM_DESCRIPTION_TEXT_ALIGN"
+                    description="MOD_PANNELLUM_DESCRIPTION_TEXT_ALIGN_DESC"
+                    default="center"
+                    showon="mode:single[AND]single_show_description:1"
+                >
+                    <option value="left">MOD_PANNELLUM_ALIGN_LEFT</option>
+                    <option value="center">MOD_PANNELLUM_ALIGN_CENTER</option>
+                    <option value="right">MOD_PANNELLUM_ALIGN_RIGHT</option>
+                </field>
+
+                <field
+                    name="single_description_font_size_value"
+                    type="number"
+                    label="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_VALUE"
+                    description="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_VALUE_DESC"
+                    default="18"
+                    min="8"
+                    max="72"
+                    showon="mode:single[AND]single_show_description:1"
+                    hint="8-72"
+                />
+
+                <field
+                    name="single_description_font_size_unit"
+                    type="list"
+                    label="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_UNIT"
+                    description="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_UNIT_DESC"
+                    default="px"
+                    showon="mode:single[AND]single_show_description:1"
+                >
+                    <option value="px">Pixel (px)</option>
+                    <option value="em">Em (em)</option>
+                    <option value="rem">Rem (rem)</option>
+                </field>
+
+                <field
+                    name="single_description_text_color"
+                    type="color"
+                    label="MOD_PANNELLUM_DESCRIPTION_TEXT_COLOR"
+                    description="MOD_PANNELLUM_DESCRIPTION_TEXT_COLOR_DESC"
+                    default="#ffffff"
+                    showon="mode:single[AND]single_show_description:1"
+                />
+
+                <field
+                    name="single_description_bg_color"
+                    type="color"
+                    label="MOD_PANNELLUM_DESCRIPTION_BG_COLOR"
+                    description="MOD_PANNELLUM_DESCRIPTION_BG_COLOR_DESC"
+                    default="#000000"
+                    showon="mode:single[AND]single_show_description:1"
+                />
+
+                <field
+                    name="single_description_bg_opacity"
+                    type="number"
+                    label="MOD_PANNELLUM_DESCRIPTION_BG_OPACITY"
+                    description="MOD_PANNELLUM_DESCRIPTION_BG_OPACITY_DESC"
+                    default="0.7"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    showon="mode:single[AND]single_show_description:1"
+                    hint="0.0 - 1.0"
+                />
+
+                <!-- Hotspots für Single Mode -->
+                <field
+                    name="single_hotspots"
+                    type="subform"
+                    label="MOD_PANNELLUM_HOTSPOTS"
+                    description="MOD_PANNELLUM_SINGLE_HOTSPOTS_DESC"
+                    formsource="modules/mod_pannellum/forms/hotspot.xml"
+                    multiple="true"
+                    buttons="add,remove,move"
+                    layout="joomla.form.field.subform.repeatable"
+                    showon="mode:single"
+                />
+
+                <!-- MULTI: Szenen-Subform -->
+                <field
+                    name="scenes"
+                    type="subform"
+                    label="MOD_PANNELLUM_SCENES_LABEL"
+                    description="MOD_PANNELLUM_SCENES_DESC"
+                    formsource="modules/mod_pannellum/forms/scene.xml"
+                    multiple="true"
+                    buttons="add,remove,move"
+                    layout="joomla.form.field.subform.repeatable"
+                    showon="mode:multi"
+                />
+            </fieldset>
+
+            <!-- SEKTION: Anzeigeoptionen (gilt für Single UND Multi) -->
+            <fieldset name="display" label="MOD_PANNELLUM_FIELDSET_DISPLAY">
+                
+                <!-- Höhe -->
+                <field
+                    name="height_unit"
+                    type="list"
+                    label="MOD_PANNELLUM_HEIGHT_UNIT"
+                    description="MOD_PANNELLUM_HEIGHT_UNIT_DESC"
+                    default="px"
+                >
+                    <option value="px">Pixel (px)</option>
+                    <option value="vh">Viewport Height (vh)</option>
+                </field>
+
+                <field
+                    name="height_value"
+                    type="number"
+                    label="MOD_PANNELLUM_HEIGHT_VALUE"
+                    description="MOD_PANNELLUM_HEIGHT_VALUE_DESC"
+                    default="500"
+                    min="100"
+                    hint="100-2000"
+                />
+
+                <!-- Drop Shadow / Schattenwurf -->
+                <field
+                    name="shadow_enabled"
+                    type="radio"
+                    label="MOD_PANNELLUM_SHADOW_ENABLED"
+                    description="MOD_PANNELLUM_SHADOW_ENABLED_DESC"
+                    default="0"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="shadow_horizontal"
+                    type="number"
+                    label="MOD_PANNELLUM_SHADOW_HORIZONTAL"
+                    description="MOD_PANNELLUM_SHADOW_HORIZONTAL_DESC"
+                    default="0"
+                    min="-50"
+                    max="50"
+                    showon="shadow_enabled:1"
+                    hint="-50 bis 50 Pixel"
+                />
+
+                <field
+                    name="shadow_vertical"
+                    type="number"
+                    label="MOD_PANNELLUM_SHADOW_VERTICAL"
+                    description="MOD_PANNELLUM_SHADOW_VERTICAL_DESC"
+                    default="4"
+                    min="-50"
+                    max="50"
+                    showon="shadow_enabled:1"
+                    hint="-50 bis 50 Pixel"
+                />
+
+                <field
+                    name="shadow_blur"
+                    type="number"
+                    label="MOD_PANNELLUM_SHADOW_BLUR"
+                    description="MOD_PANNELLUM_SHADOW_BLUR_DESC"
+                    default="8"
+                    min="0"
+                    max="100"
+                    showon="shadow_enabled:1"
+                    hint="0-100 Pixel"
+                />
+
+                <field
+                    name="shadow_spread"
+                    type="number"
+                    label="MOD_PANNELLUM_SHADOW_SPREAD"
+                    description="MOD_PANNELLUM_SHADOW_SPREAD_DESC"
+                    default="0"
+                    min="-50"
+                    max="50"
+                    showon="shadow_enabled:1"
+                    hint="-50 bis 50 Pixel"
+                />
+
+                <field
+                    name="shadow_color"
+                    type="color"
+                    label="MOD_PANNELLUM_SHADOW_COLOR"
+                    description="MOD_PANNELLUM_SHADOW_COLOR_DESC"
+                    default="#000000"
+                    showon="shadow_enabled:1"
+                />
+
+                <field
+                    name="shadow_opacity"
+                    type="number"
+                    label="MOD_PANNELLUM_SHADOW_OPACITY"
+                    description="MOD_PANNELLUM_SHADOW_OPACITY_DESC"
+                    default="0.3"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    showon="shadow_enabled:1"
+                    hint="0.0 - 1.0"
+                />
+
+                <!-- Kompass -->
+                <field
+                    name="show_compass"
+                    type="radio"
+                    label="MOD_PANNELLUM_SHOW_COMPASS"
+                    description="MOD_PANNELLUM_SHOW_COMPASS_DESC"
+                    default="0"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <!-- Gyroskop Button -->
+                <field
+                    name="show_gyro"
+                    type="radio"
+                    label="MOD_PANNELLUM_SHOW_GYRO"
+                    description="MOD_PANNELLUM_SHOW_GYRO_DESC"
+                    default="1"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <!-- Auto-Rotation -->
+                <field
+                    name="auto_rotate"
+                    type="radio"
+                    label="MOD_PANNELLUM_AUTO_ROTATE"
+                    description="MOD_PANNELLUM_AUTO_ROTATE_DESC"
+                    default="0"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="auto_rotate_speed"
+                    type="number"
+                    label="MOD_PANNELLUM_AUTO_ROTATE_SPEED"
+                    description="MOD_PANNELLUM_AUTO_ROTATE_SPEED_DESC"
+                    default="2"
+                    min="-10"
+                    max="10"
+                    step="0.5"
+                    showon="auto_rotate:1"
+                    hint="-10 bis 10 Grad/Sekunde"
+                />
+
+                <field
+                    name="auto_rotate_delay"
+                    type="number"
+                    label="MOD_PANNELLUM_AUTO_ROTATE_DELAY"
+                    description="MOD_PANNELLUM_AUTO_ROTATE_DELAY_DESC"
+                    default="3000"
+                    min="0"
+                    max="30000"
+                    step="500"
+                    showon="auto_rotate:1"
+                    hint="0-30000 Millisekunden"
+                />
+
+            </fieldset>
+        </fields>
+    </config>
+</extension>

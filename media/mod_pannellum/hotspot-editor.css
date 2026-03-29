@@ -1,0 +1,266 @@
+/* Backend Hotspot-Editor – robustes, vollflächiges Modal mit hoher z-index */
+
+.hotspot-editor-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 999999; /* über Admin-Template, Modals, Dropdowns etc. */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.hotspot-editor-modal.open {
+  display: block;
+}
+
+.hotspot-editor-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+.hotspot-editor-dialog {
+  position: absolute;
+  top: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1200px, 92vw);
+  height: 86vh;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hotspot-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0a5db1;
+  color: #fff;
+  padding: 10px 14px;
+  gap: 10px;
+}
+
+.hotspot-editor-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  flex: 0 0 auto;
+}
+
+.hotspot-editor-tools {
+  display: flex;
+  gap: 8px;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.hotspot-editor-header .close {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.hotspot-editor-body {
+  position: relative;
+  flex: 1;
+  background: #111;
+  display: flex;
+}
+
+#hotspotViewer.hotspot-viewer {
+  position: relative;
+  flex: 1;
+  min-height: 60vh;
+}
+
+/* Button im Feld */
+.hotspot-editor-button {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* ===== VISUELLE HOTSPOT-MARKER IM EDITOR ===== */
+
+/* Wrapper für den Hotspot (von Pannellum erstellt) */
+.editor-hotspot-wrapper {
+  cursor: default !important;
+  z-index: 100;
+}
+
+/* Marker-Container */
+.editor-hotspot-marker {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.editor-hotspot-marker:hover {
+  transform: scale(1.2);
+  z-index: 101;
+}
+
+/* Nummerierter Kreis */
+.hotspot-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4), 0 0 0 3px rgba(255,255,255,0.9);
+  border: 2px solid #fff;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.editor-hotspot-marker:hover .hotspot-number {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 4px rgba(255,255,255,1);
+  transform: scale(1.1);
+}
+
+/* Tooltip beim Hover */
+.hotspot-editor-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: rgba(0,0,0,0.92);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 102;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  max-width: 300px;
+  white-space: normal;
+}
+
+.hotspot-editor-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: rgba(0,0,0,0.92);
+}
+
+.editor-hotspot-marker:hover .hotspot-editor-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-15px);
+}
+
+.hotspot-editor-tooltip strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #667eea;
+  font-size: 14px;
+}
+
+/* Buttons im Header */
+.hotspot-editor-header .btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hotspot-editor-header .btn-success {
+  background: #28a745;
+  color: #fff;
+}
+
+.hotspot-editor-header .btn-success:hover {
+  background: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.hotspot-editor-header .btn-success.is-armed {
+  background: #fd7e14;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.hotspot-editor-header .btn-info {
+  background: #17a2b8;
+  color: #fff;
+}
+
+.hotspot-editor-header .btn-info:hover {
+  background: #138496;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Custom Icon Hotspots - Frontend Styling */
+.custom-icon-hotspot {
+  cursor: pointer;
+  position: absolute;
+}
+
+.hotspot-icon-wrapper {
+  position: relative;
+}
+
+.hotspot-custom-tooltip {
+  z-index: 10;
+}
+
+/* Icon-Farben und Varianten */
+.custom-icon-hotspot .icon-arrow-right,
+.custom-icon-hotspot .icon-arrow-left,
+.custom-icon-hotspot .icon-arrow-up,
+.custom-icon-hotspot .icon-arrow-down {
+  color: #0066cc;
+}
+
+.custom-icon-hotspot .icon-info,
+.custom-icon-hotspot .icon-info-circle {
+  color: #17a2b8;
+}
+
+.custom-icon-hotspot .icon-door-open,
+.custom-icon-hotspot .icon-door-closed {
+  color: #28a745;
+}
+
+.custom-icon-hotspot .icon-star {
+  color: #ffc107;
+}
+
+.custom-icon-hotspot .icon-location,
+.custom-icon-hotspot .icon-map-marker {
+  color: #dc3545;
+}

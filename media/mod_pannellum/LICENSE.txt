@@ -1,0 +1,2 @@
+Pannellum — MIT License (c) Matthew Petroff
+https://github.com/mpetroff/pannellum

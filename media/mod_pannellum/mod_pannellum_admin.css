@@ -1,0 +1,222 @@
+/**
+ * Backend Styles für mod_pannellum
+ * Verbessert die Darstellung der Szenen und Hotspots im Joomla Backend
+ */
+
+/* Subform Container Styling */
+.subform-repeatable-wrapper {
+    margin-top: 15px;
+}
+
+/* Einzelne Szenen-/Hotspot-Gruppe */
+.subform-repeatable-group {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.subform-repeatable-group:hover {
+    border-color: #0d6efd;
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.1);
+}
+
+/* Subform Header (für collapsed state) */
+.subform-repeatable-group .accordion-button {
+    background: #fff;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 15px;
+}
+
+.subform-repeatable-group .accordion-button:not(.collapsed) {
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+/* Felder innerhalb der Gruppe */
+.subform-repeatable-group .control-group {
+    margin-bottom: 15px;
+}
+
+.subform-repeatable-group .control-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+/* Buttons */
+.group-add,
+.group-remove {
+    margin: 5px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.group-add {
+    background: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+.group-add:hover {
+    background: #157347;
+    border-color: #146c43;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group-remove {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.group-remove:hover {
+    background: #bb2d3b;
+    border-color: #b02a37;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hotspot-Editor Button Styling */
+.btn-hotspot-editor {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-hotspot-editor:hover {
+    background: #0b5ed7;
+    border-color: #0a58ca;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.btn-hotspot-editor:active {
+    transform: translateY(0);
+}
+
+/* Hotspot Editor Trigger Container */
+.hotspot-editor-trigger {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #dee2e6;
+}
+
+/* Szenen-ID und Name hervorheben */
+.subform-repeatable-group input[name*="[scene_id]"],
+.subform-repeatable-group input[name*="[scene_name]"] {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Media-Felder */
+.field-media-wrapper {
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+/* Verschachelte Hotspots innerhalb von Szenen */
+.subform-repeatable-group .subform-repeatable-group {
+    background: #fff;
+    border-left: 3px solid #0d6efd;
+}
+
+/* Info-Nachrichten */
+.alert-info {
+    background: #cfe2ff;
+    border-color: #b6d4fe;
+    color: #084298;
+    padding: 12px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+    .subform-repeatable-group {
+        padding: 15px;
+    }
+    
+    .btn-hotspot-editor {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+/* Verbesserte Lesbarkeit für lange Listen */
+.subform-repeatable-wrapper > .subform-repeatable-group:nth-child(odd) {
+    background: #f8f9fa;
+}
+
+.subform-repeatable-wrapper > .subform-repeatable-group:nth-child(even) {
+    background: #ffffff;
+}
+
+/* Drag-Handle für Sortierung (falls aktiviert) */
+.subform-repeatable-group .drag-handle {
+    cursor: move;
+    padding: 5px;
+    margin-right: 10px;
+    color: #6c757d;
+}
+
+.subform-repeatable-group .drag-handle:hover {
+    color: #0d6efd;
+}
+
+/* Kollabierte Ansicht */
+.subform-repeatable-group.collapsed {
+    padding: 10px 20px;
+}
+
+.subform-repeatable-group.collapsed .subform-repeatable-inner {
+    display: none;
+}
+
+/* Szenen-Counter */
+.subform-repeatable-group::before {
+    content: "Szene " counter(scene-counter);
+    counter-increment: scene-counter;
+    display: inline-block;
+    background: #0d6efd;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+}
+
+.subform-repeatable-wrapper {
+    counter-reset: scene-counter;
+}
+
+/* Verschachtelte Hotspots - eigener Counter */
+.subform-repeatable-group .subform-repeatable-group::before {
+    content: "Hotspot " counter(hotspot-counter);
+    counter-increment: hotspot-counter;
+    background: #6c757d;
+}
+
+.subform-repeatable-group {
+    counter-reset: hotspot-counter;
+}

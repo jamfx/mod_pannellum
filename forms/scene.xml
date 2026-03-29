@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldpath="/modules/mod_pannellum/src/Field">
+  <config>
+    <inlinehelp button="show" />
+  </config>
+
+  <field
+    name="scene_id"
+    type="text"
+    label="MOD_PANNELLUM_FIELD_SCENE_ID"
+    description="MOD_PANNELLUM_FIELD_SCENE_ID_DESC"
+    required="true"
+    hint="z.B. wohnzimmer, kueche, balkon_01"
+  />
+
+  <field
+    name="title"
+    type="text"
+    label="MOD_PANNELLUM_FIELD_SCENE_TITLE"
+    description="MOD_PANNELLUM_FIELD_SCENE_TITLE_DESC"
+    required="true"
+    hint="z.B. Wohnzimmer, Küche"
+  />
+
+  <!-- SZENEN-TITEL IM VIEWER ANZEIGEN -->
+  <field
+    name="show_title"
+    type="radio"
+    label="MOD_PANNELLUM_SHOW_SCENE_TITLE"
+    description="MOD_PANNELLUM_SHOW_SCENE_TITLE_DESC"
+    default="0"
+    class="btn-group btn-group-yesno"
+  >
+    <option value="1">JYES</option>
+    <option value="0">JNO</option>
+  </field>
+
+  <field
+    name="scene_image"
+    type="media"
+    label="MOD_PANNELLUM_SCENE_IMAGE"
+    description="MOD_PANNELLUM_FIELD_SCENE_IMAGE_DESC"
+    preview="true"
+    required="true"
+  />
+
+  <field
+    name="yaw"
+    type="number"
+    label="MOD_PANNELLUM_FIELD_YAW"
+    description="MOD_PANNELLUM_SCENE_YAW_DESC"
+    default="0"
+    step="0.1"
+    hint="-180 bis 180"
+  />
+
+  <field
+    name="pitch"
+    type="number"
+    label="MOD_PANNELLUM_FIELD_PITCH"
+    description="MOD_PANNELLUM_SCENE_PITCH_DESC"
+    default="0"
+    step="0.1"
+    hint="-90 bis 90"
+  />
+
+  <field
+    name="hfov"
+    type="number"
+    label="MOD_PANNELLUM_FIELD_HFOV"
+    description="MOD_PANNELLUM_SCENE_HFOV_DESC"
+    default="100"
+    min="30"
+    max="120"
+    step="0.1"
+    hint="30-120"
+  />
+
+  <field
+    name="northOffset"
+    type="number"
+    label="MOD_PANNELLUM_FIELD_NORTHOFFSET"
+    description="MOD_PANNELLUM_NORTHOFFSET_DESC"
+    default="0"
+    step="1"
+    hint="0-360"
+  />
+
+  <!-- BILDBESCHREIBUNG FÜR DIESE SZENE -->
+  <field
+    name="show_description"
+    type="radio"
+    label="MOD_PANNELLUM_SHOW_DESCRIPTION"
+    description="MOD_PANNELLUM_SHOW_DESCRIPTION_DESC"
+    default="0"
+    class="btn-group btn-group-yesno"
+  >
+    <option value="1">JYES</option>
+    <option value="0">JNO</option>
+  </field>
+
+  <field
+    name="description_text"
+    type="text"
+    label="MOD_PANNELLUM_DESCRIPTION_TEXT"
+    description="MOD_PANNELLUM_DESCRIPTION_TEXT_DESC"
+    default=""
+    showon="show_description:1"
+  />
+
+  <field
+    name="description_position"
+    type="list"
+    label="MOD_PANNELLUM_DESCRIPTION_POSITION"
+    description="MOD_PANNELLUM_DESCRIPTION_POSITION_DESC"
+    default="bottom"
+    showon="show_description:1"
+  >
+    <option value="top">MOD_PANNELLUM_POSITION_TOP</option>
+    <option value="bottom">MOD_PANNELLUM_POSITION_BOTTOM</option>
+  </field>
+
+  <field
+    name="description_text_align"
+    type="list"
+    label="MOD_PANNELLUM_DESCRIPTION_TEXT_ALIGN"
+    description="MOD_PANNELLUM_DESCRIPTION_TEXT_ALIGN_DESC"
+    default="center"
+    showon="show_description:1"
+  >
+    <option value="left">MOD_PANNELLUM_ALIGN_LEFT</option>
+    <option value="center">MOD_PANNELLUM_ALIGN_CENTER</option>
+    <option value="right">MOD_PANNELLUM_ALIGN_RIGHT</option>
+  </field>
+
+  <field
+    name="description_font_size_value"
+    type="number"
+    label="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_VALUE"
+    description="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_VALUE_DESC"
+    default="18"
+    min="8"
+    max="72"
+    showon="show_description:1"
+    hint="8-72"
+  />
+
+  <field
+    name="description_font_size_unit"
+    type="list"
+    label="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_UNIT"
+    description="MOD_PANNELLUM_DESCRIPTION_FONT_SIZE_UNIT_DESC"
+    default="px"
+    showon="show_description:1"
+  >
+    <option value="px">Pixel (px)</option>
+    <option value="em">Em (em)</option>
+    <option value="rem">Rem (rem)</option>
+  </field>
+
+  <field
+    name="description_text_color"
+    type="color"
+    label="MOD_PANNELLUM_DESCRIPTION_TEXT_COLOR"
+    description="MOD_PANNELLUM_DESCRIPTION_TEXT_COLOR_DESC"
+    default="#ffffff"
+    showon="show_description:1"
+  />
+
+  <field
+    name="description_bg_color"
+    type="color"
+    label="MOD_PANNELLUM_DESCRIPTION_BG_COLOR"
+    description="MOD_PANNELLUM_DESCRIPTION_BG_COLOR_DESC"
+    default="#000000"
+    showon="show_description:1"
+  />
+
+  <field
+    name="description_bg_opacity"
+    type="number"
+    label="MOD_PANNELLUM_DESCRIPTION_BG_OPACITY"
+    description="MOD_PANNELLUM_DESCRIPTION_BG_OPACITY_DESC"
+    default="0.7"
+    min="0"
+    max="1"
+    step="0.1"
+    showon="show_description:1"
+    hint="0.0 - 1.0"
+  />
+
+  <!-- Hotspot-Editor Button für diese Szene -->
+  <field
+    name="scene_hotspot_editor_button"
+    type="hotspoteditorbutton"
+    label="MOD_PANNELLUM_HOTSPOT_EDITOR_OPEN"
+  />
+
+  <!-- Hotspots für diese Szene -->
+  <field
+    name="hotspots"
+    type="subform"
+    label="MOD_PANNELLUM_HOTSPOTS"
+    description="MOD_PANNELLUM_SCENE_HOTSPOTS_DESC"
+    formsource="modules/mod_pannellum/forms/hotspot.xml"
+    multiple="true"
+    buttons="add,remove,move"
+    layout="joomla.form.field.subform.repeatable"
+  />
+</form>
