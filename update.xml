@@ -10,12 +10,12 @@
         <version>1.0.0</version>
         <infourl title="Release Notes">https://github.com/jamfx/mod_pannellum/releases/tag/v1.0.0</infourl>
         <downloads>
-            <downloadurl type="full" format="zip">https://github.com/jamfx/mod_panellum/releases/download/v1.0.0/mod_panellum_v1.0.0.zip</downloadurl>
+            <downloadurl type="full" format="zip">https://github.com/jamfx/mod_pannellum/releases/download/v1.0.0/mod_pannellum_v1.0.0.zip</downloadurl>
         </downloads>
         <tags>
             <tag>stable</tag>
         </tags>
-        <sha256>7c50fd03318f5799360364319bbdd44174557828ff5b9bcfbe1fe0ab8dd96f6a</sha256>
+        <sha256>cd07cc6438a674488658295e6ec5eb60ee5feb1de3868a047d4aaffcd79bdb42</sha256>
         <maintainer>Niko Winckel</maintainer>
         <maintainerurl>https://nik-o-mat.de</maintainerurl>
         <targetplatform name="joomla" version="5\.[0-9]" />
@@ -32,12 +32,12 @@
         <version>1.0.0</version>
         <infourl title="Release Notes">https://github.com/jamfx/mod_pannellum/releases/tag/v1.0.0</infourl>
         <downloads>
-            <downloadurl type="full" format="zip">https://github.com/jamfx/mod_panellum/releases/download/v1.0.0/mod_panellum_v1.0.0.zip</downloadurl>
+            <downloadurl type="full" format="zip">https://github.com/jamfx/mod_pannellum/releases/download/v1.0.0/mod_pannellum_v1.0.0.zip</downloadurl>
         </downloads>
         <tags>
             <tag>stable</tag>
         </tags>
-        <sha256>7c50fd03318f5799360364319bbdd44174557828ff5b9bcfbe1fe0ab8dd96f6a</sha256>
+        <sha256>cd07cc6438a674488658295e6ec5eb60ee5feb1de3868a047d4aaffcd79bdb42</sha256>
         <maintainer>Niko Winckel</maintainer>
         <maintainerurl>https://nik-o-mat.de</maintainerurl>
         <targetplatform name="joomla" version="6\.[0-9]" />
