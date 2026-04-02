@@ -1,4 +1,14 @@
 <?php
+/**
+ * @package     mod_pannellum
+ * @version     1.0.0
+ * @author      Niko Winckel
+ * @copyright   (C) 2025 Niko Winckel. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @link        https://nik-o-mat.de
+ *
+ * Pannellum 360° Viewer – Frontend Layout Template
+ */
 defined('_JEXEC') or die;
 
 $instanceId = 'pannellum-' . (int) $module->id;
