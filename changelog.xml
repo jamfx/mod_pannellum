@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelogs>
+    <changelog>
+        <element>mod_pannellum</element>
+        <type>module</type>
+        <version>1.1.0</version>
+        <addition>
+            <item>Gallery mode: responsive thumbnail grid (2/3/4 columns, gap, aspect ratio) with inline or modal/lightbox viewer</item>
+            <item>Thumbnails are generated automatically when saving (correct equirectangular-to-perspective projection, PHP GD)</item>
+            <item>Large panoramas (e.g. 15520x7760 px drone images) are downscaled first (ImageMagick, Imagick extension or GD)</item>
+            <item>Optional vertical divider, hover effect, custom CSS class and gallery title</item>
+            <item>Keyboard navigation and accessibility for the gallery</item>
+            <item>Optional debug log for support (tab "Advanced")</item>
+            <item>Notice on installation if the PHP GD extension is missing</item>
+        </addition>
+        <change>
+            <item>Module restructured to current Joomla 5/6 conventions (service provider, dispatcher, namespaced classes)</item>
+            <item>All remaining hard-coded texts moved to the language files (German and English)</item>
+            <item>"Auto load" now defaults to "No" for new modules</item>
+            <item>Unused thumbnails are cleaned up automatically and removed on uninstall</item>
+        </change>
+        <note>
+            <item>The PHP GD extension is required for the gallery mode. ImageMagick is recommended for large panoramas.</item>
+        </note>
+    </changelog>
+    <changelog>
+        <element>mod_pannellum</element>
+        <type>module</type>
+        <version>1.0.1</version>
+        <fix>
+            <item>Using several Pannellum modules on the same page caused a 500 error</item>
+            <item>The auto-load setting was ignored in multi-scene mode</item>
+            <item>Compass, auto-rotation speed and delay settings had no effect</item>
+        </fix>
+        <addition>
+            <item>"Loading..." texts are now translatable via language files</item>
+        </addition>
+        <change>
+            <item>Removed debug console output from the frontend JavaScript</item>
+        </change>
+    </changelog>
+    <changelog>
+        <element>mod_pannellum</element>
+        <type>module</type>
+        <version>1.0.0</version>
+        <note>
+            <item>First public release: single panorama and multi-scene mode with hotspot editor</item>
+        </note>
+    </changelog>
+</changelogs>
