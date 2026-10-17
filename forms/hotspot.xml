@@ -10,7 +10,7 @@
     label="MOD_PANNELLUM_FIELD_HOTSPOT_PITCH"
     description="MOD_PANNELLUM_FIELD_HOTSPOT_PITCH_DESC"
     required="true"
-    hint="z.B. 10.5, -20.3"
+    hint="MOD_PANNELLUM_HINT_PITCH_EXAMPLE"
   />
 
   <field
@@ -19,7 +19,7 @@
     label="MOD_PANNELLUM_FIELD_HOTSPOT_YAW"
     description="MOD_PANNELLUM_FIELD_HOTSPOT_YAW_DESC"
     required="true"
-    hint="z.B. -45.3, 180.0"
+    hint="MOD_PANNELLUM_HINT_YAW_EXAMPLE"
   />
 
   <field
@@ -39,7 +39,7 @@
     label="MOD_PANNELLUM_FIELD_HOTSPOT_TARGET_SCENE"
     description="MOD_PANNELLUM_FIELD_HOTSPOT_TARGET_SCENE_DESC"
     showon="type:scene"
-    hint="z.B. wohnzimmer, kueche"
+    hint="MOD_PANNELLUM_HINT_TARGET_EXAMPLE"
   />
 
   <field
@@ -64,7 +64,7 @@
     max="80"
     step="5"
     showon="type:info"
-    hint="20-80"
+    hint="MOD_PANNELLUM_HINT_BOX_SIZE_RANGE"
   />
 
   <field
@@ -77,7 +77,7 @@
     max="80"
     step="5"
     showon="type:info"
-    hint="20-80"
+    hint="MOD_PANNELLUM_HINT_BOX_SIZE_RANGE"
   />
 
   <field
@@ -85,7 +85,7 @@
     type="text"
     label="MOD_PANNELLUM_FIELD_HOTSPOT_ICON"
     description="MOD_PANNELLUM_FIELD_HOTSPOT_ICON_DESC"
-    hint="z.B. icon-arrow-right, icon-info, icon-star"
+    hint="MOD_PANNELLUM_HINT_ICON_EXAMPLE"
     default="icon-circle"
   />
 
@@ -106,6 +106,6 @@
     min="12"
     max="60"
     step="2"
-    hint="12-60"
+    hint="MOD_PANNELLUM_HINT_ICON_SIZE_RANGE"
   />
 </form>

@@ -13,6 +13,14 @@
     init();
   }
 
+  // Übersetzung über Joomla.Text (Texte werden per Text::script() aus den Sprachdateien bereitgestellt)
+  function t(key, fallback, vars){
+    var s = (window.Joomla && Joomla.Text && typeof Joomla.Text._ === 'function' && Joomla.Text._(key)) || fallback;
+    if(vars){ Object.keys(vars).forEach(function(k){ s = s.split('{'+k+'}').join(vars[k]); }); }
+    return s;
+  }
+  function esc(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
   function init() {
     // Prüfe ob wir im Backend sind
     if (!document.querySelector('.com_modules')) {
@@ -86,14 +94,14 @@
     if (sceneIds.length > 0 && !sceneIds.includes(defaultSceneId)) {
       showValidationError(
         defaultSceneField,
-        'Warnung: Die Start-Szene "' + defaultSceneId + '" existiert nicht!\n' +
-        'Verfügbare Szenen: ' + sceneIds.join(', ') + '\n\n' +
-        'Das Modul wird automatisch zur ersten verfügbaren Szene wechseln.'
+        t('MOD_PANNELLUM_JS_VAL_MISSING', 'Warning: The start scene "{scene}" does not exist!', {scene: defaultSceneId}) + '\n' +
+        t('MOD_PANNELLUM_JS_VAL_AVAILABLE', 'Available scenes: {scenes}', {scenes: sceneIds.join(', ')}) + '\n\n' +
+        t('MOD_PANNELLUM_JS_VAL_FALLBACK', 'The module will automatically switch to the first available scene.')
       );
     } else if (sceneIds.length > 0) {
       showValidationSuccess(
         defaultSceneField,
-        'Start-Szene "' + defaultSceneId + '" gefunden ✓'
+        t('MOD_PANNELLUM_JS_VAL_FOUND', 'Start scene "{scene}" found ✓', {scene: defaultSceneId})
       );
     }
   }
@@ -104,8 +112,8 @@
     var alertDiv = document.createElement('div');
     alertDiv.className = 'alert alert-warning validation-message';
     alertDiv.style.cssText = 'margin-top: 10px; padding: 10px; font-size: 13px;';
-    alertDiv.innerHTML = '<strong>⚠️ Validierung:</strong><br>' + 
-                         message.replace(/\n/g, '<br>');
+    alertDiv.innerHTML = '<strong>⚠️ ' + esc(t('MOD_PANNELLUM_JS_VAL_TITLE', 'Validation')) + ':</strong><br>' +
+                         esc(message).replace(/\n/g, '<br>');
 
     field.parentElement.appendChild(alertDiv);
 

@@ -1,20 +1,29 @@
 <?php
 /**
  * @package     mod_pannellum
- * @version     1.0.1
+ * @version     1.1.0
  * @author      Niko Winckel
  * @copyright   (C) 2025 Niko Winckel. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
  * @link        https://nik-o-mat.de
  *
  * Pannellum 360° Viewer – Frontend Layout Template
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+
+// Galerie-Modus hat ein eigenes Layout
+if (($config['type'] ?? '') === 'gallery') {
+    require ModuleHelper::getLayoutPath('mod_pannellum', 'gallery');
+
+    return;
+}
+
 $instanceId = 'pannellum-' . (int) $module->id;
 $wrapperId = 'pannellum-wrapper-' . (int) $module->id;
 
-// $config kommt aus mod_pannellum.php
+// $config kommt aus dem Dispatcher (PannellumHelper::getConfig)
 $json = json_encode($config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
 // Höhe aus Display-Optionen

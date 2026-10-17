@@ -10,7 +10,7 @@
     label="MOD_PANNELLUM_FIELD_SCENE_ID"
     description="MOD_PANNELLUM_FIELD_SCENE_ID_DESC"
     required="true"
-    hint="z.B. wohnzimmer, kueche, balkon_01"
+    hint="MOD_PANNELLUM_HINT_SCENE_ID_EXAMPLE"
   />
 
   <field
@@ -19,7 +19,7 @@
     label="MOD_PANNELLUM_FIELD_SCENE_TITLE"
     description="MOD_PANNELLUM_FIELD_SCENE_TITLE_DESC"
     required="true"
-    hint="z.B. Wohnzimmer, Küche"
+    hint="MOD_PANNELLUM_HINT_SCENE_TITLE_EXAMPLE"
   />
 
   <!-- SZENEN-TITEL IM VIEWER ANZEIGEN -->
@@ -51,7 +51,7 @@
     description="MOD_PANNELLUM_SCENE_YAW_DESC"
     default="0"
     step="0.1"
-    hint="-180 bis 180"
+    hint="MOD_PANNELLUM_HINT_YAW_RANGE"
   />
 
   <field
@@ -61,7 +61,7 @@
     description="MOD_PANNELLUM_SCENE_PITCH_DESC"
     default="0"
     step="0.1"
-    hint="-90 bis 90"
+    hint="MOD_PANNELLUM_HINT_PITCH_RANGE"
   />
 
   <field
@@ -73,7 +73,7 @@
     min="30"
     max="120"
     step="0.1"
-    hint="30-120"
+    hint="MOD_PANNELLUM_HINT_HFOV_RANGE"
   />
 
   <field
@@ -83,7 +83,7 @@
     description="MOD_PANNELLUM_NORTHOFFSET_DESC"
     default="0"
     step="1"
-    hint="0-360"
+    hint="MOD_PANNELLUM_HINT_NORTH_OFFSET_RANGE"
   />
 
   <!-- BILDBESCHREIBUNG FÜR DIESE SZENE -->
@@ -142,7 +142,7 @@
     min="8"
     max="72"
     showon="show_description:1"
-    hint="8-72"
+    hint="MOD_PANNELLUM_HINT_FONT_SIZE_RANGE"
   />
 
   <field
@@ -153,9 +153,9 @@
     default="px"
     showon="show_description:1"
   >
-    <option value="px">Pixel (px)</option>
-    <option value="em">Em (em)</option>
-    <option value="rem">Rem (rem)</option>
+    <option value="px">MOD_PANNELLUM_UNIT_PX</option>
+    <option value="em">MOD_PANNELLUM_UNIT_EM</option>
+    <option value="rem">MOD_PANNELLUM_UNIT_REM</option>
   </field>
 
   <field
@@ -186,13 +186,13 @@
     max="1"
     step="0.1"
     showon="show_description:1"
-    hint="0.0 - 1.0"
+    hint="MOD_PANNELLUM_HINT_OPACITY_RANGE"
   />
 
   <!-- Hotspot-Editor Button für diese Szene -->
   <field
     name="scene_hotspot_editor_button"
-    type="hotspoteditorbutton"
+    type="HotspotEditorButton"
     label="MOD_PANNELLUM_HOTSPOT_EDITOR_OPEN"
   />
 

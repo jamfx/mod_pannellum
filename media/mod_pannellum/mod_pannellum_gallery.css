@@ -1,0 +1,245 @@
+/**
+ * mod_pannellum – Galerie-Modus (Raster, Kacheln, Inline-Viewer, Modal)
+ * @license GNU General Public License version 3 or later
+ */
+
+/* ---------- Raster ---------- */
+.mod-pannellum-gallery__title {
+    margin: 0 0 1rem;
+}
+
+.mod-pannellum-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--gallery-columns, 3), minmax(0, 1fr));
+    gap: var(--gallery-gap, 10px);
+}
+
+/* Tablet: maximal 2 Spalten, Mobil: 1 Spalte */
+@media (max-width: 1024px) {
+    .mod-pannellum-gallery__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .mod-pannellum-gallery__grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ---------- Kacheln ---------- */
+.mod-pannellum-gallery__item {
+    position: relative;
+    aspect-ratio: var(--gallery-aspect-ratio, 16/9);
+    cursor: pointer;
+    box-sizing: border-box;
+    box-shadow: var(--gallery-shadow, none);
+    background: #000;
+}
+
+.mod-pannellum-gallery__item:focus-visible {
+    outline: 3px solid #1a73e8;
+    outline-offset: 2px;
+}
+
+/* Beschneidet Bild und Overlay (z. B. beim Hover-Zoom) */
+.mod-pannellum-gallery__media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    background: #000;
+}
+
+.mod-pannellum-gallery__thumbnail {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Divider: senkrechte Linie zwischen den Kacheln (mittig in der Lücke).
+   Jede Kachel, die nicht die letzte ihrer Zeile ist, zeichnet die Linie an ihrem rechten Rand. */
+.mod-pannellum-gallery--divider .mod-pannellum-gallery__item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(100% + var(--gallery-gap, 10px) / 2 - var(--gallery-divider-width, 1px) / 2);
+    z-index: 2;
+    display: none;
+    width: var(--gallery-divider-width, 1px);
+    background: var(--gallery-divider-color, #ccc);
+    pointer-events: none;
+}
+
+/* Tablet: 2 Spalten */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .mod-pannellum-gallery--divider .mod-pannellum-gallery__item:not(:nth-child(2n)):not(:last-child)::after {
+        display: block;
+    }
+}
+
+/* Desktop: konfigurierte Spaltenanzahl (Mobil: eine Spalte, keine Linie) */
+@media (min-width: 1025px) {
+    .mod-pannellum-gallery--divider[data-columns="2"] .mod-pannellum-gallery__item:not(:nth-child(2n)):not(:last-child)::after,
+    .mod-pannellum-gallery--divider[data-columns="3"] .mod-pannellum-gallery__item:not(:nth-child(3n)):not(:last-child)::after,
+    .mod-pannellum-gallery--divider[data-columns="4"] .mod-pannellum-gallery__item:not(:nth-child(4n)):not(:last-child)::after {
+        display: block;
+    }
+}
+
+/* ---------- Titel-Overlay ---------- */
+.mod-pannellum-gallery__overlay {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0.5rem 0.75rem;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    pointer-events: none;
+}
+
+.mod-pannellum-gallery__item-title {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---------- Hover-Effekt (nur wenn aktiviert) ---------- */
+.mod-pannellum-gallery--hover .mod-pannellum-gallery__thumbnail,
+.mod-pannellum-gallery--hover .mod-pannellum-gallery__overlay {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.mod-pannellum-gallery--hover .mod-pannellum-gallery__item:hover .mod-pannellum-gallery__thumbnail,
+.mod-pannellum-gallery--hover .mod-pannellum-gallery__item:focus-visible .mod-pannellum-gallery__thumbnail {
+    transform: scale(1.03);
+}
+
+.mod-pannellum-gallery--hover .mod-pannellum-gallery__item:hover .mod-pannellum-gallery__overlay,
+.mod-pannellum-gallery--hover .mod-pannellum-gallery__item:focus-visible .mod-pannellum-gallery__overlay {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mod-pannellum-gallery--hover .mod-pannellum-gallery__thumbnail,
+    .mod-pannellum-gallery--hover .mod-pannellum-gallery__overlay {
+        transition: none;
+    }
+
+    .mod-pannellum-gallery--hover .mod-pannellum-gallery__item:hover .mod-pannellum-gallery__thumbnail,
+    .mod-pannellum-gallery--hover .mod-pannellum-gallery__item:focus-visible .mod-pannellum-gallery__thumbnail {
+        transform: none;
+    }
+}
+
+/* ---------- Inline-Viewer ---------- */
+.mod-pannellum-gallery__item.is-active {
+    cursor: default;
+}
+
+.mod-pannellum-gallery__item.is-active .mod-pannellum-gallery__media {
+    display: none;
+}
+
+.mod-pannellum-gallery__viewer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.mod-pannellum-gallery__close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 100;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 18px;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.mod-pannellum-gallery__close-btn:hover,
+.mod-pannellum-gallery__close-btn:focus-visible {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* ---------- Modal ---------- */
+.mod-pannellum-gallery-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    display: none; /* wird per JS auf flex gesetzt */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.mod-pannellum-gallery-modal__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.mod-pannellum-gallery-modal__content {
+    position: relative;
+    z-index: 1;
+    width: 90vw;
+    max-width: 1200px;
+    height: 80vh;
+    max-height: 90vh;
+}
+
+.mod-pannellum-gallery-modal__viewer {
+    width: 100%;
+    height: 100%;
+}
+
+.mod-pannellum-gallery-modal__close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    z-index: 2;
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.mod-pannellum-gallery-modal__close:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.mod-pannellum-gallery-modal__caption {
+    position: absolute;
+    right: 0;
+    bottom: -2rem;
+    left: 0;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

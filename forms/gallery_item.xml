@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+  <config>
+    <inlinehelp button="show" />
+  </config>
+
+  <field
+    name="gallery_item_image"
+    type="media"
+    label="MOD_PANNELLUM_GALLERY_ITEM_IMAGE_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_IMAGE_DESC"
+    required="true"
+    preview="true"
+    validate="GalleryThumbnail"
+  />
+
+  <field
+    name="gallery_item_title"
+    type="text"
+    label="MOD_PANNELLUM_GALLERY_ITEM_TITLE_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_TITLE_DESC"
+  />
+
+  <field
+    name="gallery_item_description"
+    type="textarea"
+    label="MOD_PANNELLUM_GALLERY_ITEM_DESCRIPTION_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_DESCRIPTION_DESC"
+    rows="3"
+    default=""
+  />
+
+  <field
+    name="gallery_item_alt_text"
+    type="text"
+    label="MOD_PANNELLUM_GALLERY_ITEM_ALT_TEXT_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_ALT_TEXT_DESC"
+    default=""
+  />
+
+  <field
+    name="gallery_item_yaw"
+    type="number"
+    label="MOD_PANNELLUM_GALLERY_ITEM_YAW_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_YAW_DESC"
+    default="0"
+    step="0.1"
+    hint="MOD_PANNELLUM_HINT_YAW_RANGE"
+  />
+
+  <field
+    name="gallery_item_pitch"
+    type="number"
+    label="MOD_PANNELLUM_GALLERY_ITEM_PITCH_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_PITCH_DESC"
+    default="0"
+    step="0.1"
+    hint="MOD_PANNELLUM_HINT_PITCH_RANGE"
+  />
+
+  <field
+    name="gallery_item_hfov"
+    type="number"
+    label="MOD_PANNELLUM_GALLERY_ITEM_HFOV_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_HFOV_DESC"
+    default="100"
+    min="30"
+    max="120"
+    step="0.1"
+    hint="MOD_PANNELLUM_HINT_HFOV_RANGE"
+  />
+
+  <field
+    name="gallery_item_autorotate"
+    type="radio"
+    label="MOD_PANNELLUM_GALLERY_ITEM_AUTOROTATE_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_AUTOROTATE_DESC"
+    default="0"
+    class="btn-group btn-group-yesno"
+  >
+    <option value="1">JYES</option>
+    <option value="0">JNO</option>
+  </field>
+
+  <field
+    name="gallery_item_fullscreen"
+    type="radio"
+    label="MOD_PANNELLUM_GALLERY_ITEM_FULLSCREEN_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_FULLSCREEN_DESC"
+    default="1"
+    class="btn-group btn-group-yesno"
+  >
+    <option value="1">JYES</option>
+    <option value="0">JNO</option>
+  </field>
+
+  <field
+    name="gallery_item_ordering"
+    type="number"
+    label="MOD_PANNELLUM_GALLERY_ITEM_ORDERING_LABEL"
+    description="MOD_PANNELLUM_GALLERY_ITEM_ORDERING_DESC"
+    default="0"
+  />
+
+</form>

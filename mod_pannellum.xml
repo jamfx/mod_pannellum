@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="module" client="site" method="upgrade" version="5.0">
+<extension type="module" client="site" method="upgrade">
     <name>MOD_PANNELLUM</name>
     <author>Niko Winckel</author>
     <authorEmail>joomla@nik-o-mat.de</authorEmail>
     <authorUrl>https://nik-o-mat.de</authorUrl>
     <copyright>(C) 2025 Niko Winckel. All rights reserved.</copyright>
     <license>GNU General Public License version 3 or later</license>
-    <creationDate>2026-03-29</creationDate>
-    <version>1.0.1</version>
+    <creationDate>2026-10-16</creationDate>
+    <version>1.1.0</version>
     <description>MOD_PANNELLUM_XML_DESCRIPTION</description>
-    <namespace path="src">ModPannellum</namespace>
+    <namespace path="src">Nikomat\Module\Pannellum</namespace>
+
+    <scriptfile>script.php</scriptfile>
 
     <files>
-        <filename module="mod_pannellum">mod_pannellum.php</filename>
+        <folder module="mod_pannellum">services</folder>
         <filename>mod_pannellum.xml</filename>
+        <filename>script.php</filename>
         <folder>language</folder>
         <folder>src</folder>
         <folder>tmpl</folder>
@@ -28,6 +31,9 @@
         <filename>mod_pannellum_admin.css</filename>
         <filename>mod_pannellum_info_hotspots.css</filename>
         <filename>mod_pannellum_init.js</filename>
+        <filename>mod_pannellum_gallery.css</filename>
+        <filename>mod_pannellum_gallery.js</filename>
+        <filename>mod_pannellum_gallery_admin.js</filename>
         <filename>mod_pannellum_validation.js</filename>
         <filename>LICENSE.txt</filename>
     </media>
@@ -45,7 +51,7 @@
     </updateservers>
 
     <config>
-        <fields name="params" addfieldpath="/modules/mod_pannellum/src/Field">
+        <fields name="params" addfieldprefix="Nikomat\Module\Pannellum\Site\Field" addruleprefix="Nikomat\Module\Pannellum\Site\Rule">
             <fieldset name="basic" label="MOD_PANNELLUM_FIELDSET_BASIC">
                 <!-- Modus -->
                 <field
@@ -57,7 +63,15 @@
                 >
                     <option value="single">MOD_PANNELLUM_MODE_SINGLE</option>
                     <option value="multi">MOD_PANNELLUM_MODE_MULTI</option>
+                    <option value="gallery">MOD_PANNELLUM_MODE_GALLERY</option>
                 </field>
+
+                <!-- Hinweis zur Thumbnail-Erzeugung beim Speichern (nur im Galerie-Modus sichtbar) -->
+                <field
+                    name="gallery_save_notice"
+                    type="GalleryNotice"
+                    showon="mode:gallery"
+                />
 
                 <!-- Automatisches Laden (gilt für beide Modi) -->
                 <field
@@ -65,7 +79,7 @@
                     type="radio"
                     label="MOD_PANNELLUM_FIELD_AUTOLOAD"
                     description="MOD_PANNELLUM_AUTOLOAD_DESC"
-                    default="1"
+                    default="0"
                     class="btn-group btn-group-yesno"
                 >
                     <option value="1">JYES</option>
@@ -85,7 +99,7 @@
                 <!-- Hotspot-Editor Button für Single Mode -->
                 <field
                     name="single_hotspot_editor_button"
-                    type="hotspoteditorbutton"
+                    type="HotspotEditorButton"
                     label="MOD_PANNELLUM_HOTSPOT_EDITOR_OPEN"
                     showon="mode:single"
                 />
@@ -98,7 +112,7 @@
                     step="0.1"
                     default="0"
                     showon="mode:single"
-                    hint="-180 bis 180"
+                    hint="MOD_PANNELLUM_HINT_YAW_RANGE"
                 />
 
                 <field
@@ -109,7 +123,7 @@
                     step="0.1"
                     default="0"
                     showon="mode:single"
-                    hint="-90 bis 90"
+                    hint="MOD_PANNELLUM_HINT_PITCH_RANGE"
                 />
 
                 <field
@@ -122,7 +136,7 @@
                     min="30"
                     max="120"
                     showon="mode:single"
-                    hint="30-120"
+                    hint="MOD_PANNELLUM_HINT_HFOV_RANGE"
                 />
 
                 <!-- BILDBESCHREIBUNG FÜR SINGLE MODE -->
@@ -182,7 +196,7 @@
                     min="8"
                     max="72"
                     showon="mode:single[AND]single_show_description:1"
-                    hint="8-72"
+                    hint="MOD_PANNELLUM_HINT_FONT_SIZE_RANGE"
                 />
 
                 <field
@@ -193,9 +207,9 @@
                     default="px"
                     showon="mode:single[AND]single_show_description:1"
                 >
-                    <option value="px">Pixel (px)</option>
-                    <option value="em">Em (em)</option>
-                    <option value="rem">Rem (rem)</option>
+                    <option value="px">MOD_PANNELLUM_UNIT_PX</option>
+                    <option value="em">MOD_PANNELLUM_UNIT_EM</option>
+                    <option value="rem">MOD_PANNELLUM_UNIT_REM</option>
                 </field>
 
                 <field
@@ -226,7 +240,7 @@
                     max="1"
                     step="0.1"
                     showon="mode:single[AND]single_show_description:1"
-                    hint="0.0 - 1.0"
+                    hint="MOD_PANNELLUM_HINT_OPACITY_RANGE"
                 />
 
                 <!-- Hotspots für Single Mode -->
@@ -254,6 +268,123 @@
                     layout="joomla.form.field.subform.repeatable"
                     showon="mode:multi"
                 />
+
+                <!-- GALLERY MODE -->
+                <field
+                    name="gallery_title"
+                    type="text"
+                    label="MOD_PANNELLUM_GALLERY_TITLE_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_TITLE_DESC"
+                    default=""
+                    showon="mode:gallery"
+                />
+                <field
+                    name="gallery_columns"
+                    type="list"
+                    label="MOD_PANNELLUM_GALLERY_COLUMNS_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_COLUMNS_DESC"
+                    default="3"
+                    showon="mode:gallery"
+                >
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </field>
+                <field
+                    name="gallery_gap"
+                    type="number"
+                    label="MOD_PANNELLUM_GALLERY_GAP_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_GAP_DESC"
+                    default="10"
+                    min="0"
+                    max="50"
+                    showon="mode:gallery"
+                />
+                <field
+                    name="gallery_aspect_ratio"
+                    type="list"
+                    label="MOD_PANNELLUM_GALLERY_ASPECT_RATIO_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_ASPECT_RATIO_DESC"
+                    default="16_9"
+                    showon="mode:gallery"
+                >
+                    <option value="16_9">16:9</option>
+                    <option value="4_3">4:3</option>
+                    <option value="1_1">1:1</option>
+                </field>
+                <field
+                    name="gallery_viewer_mode"
+                    type="list"
+                    label="MOD_PANNELLUM_GALLERY_VIEWER_MODE_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_VIEWER_MODE_DESC"
+                    default="inline"
+                    showon="mode:gallery"
+                >
+                    <option value="inline">MOD_PANNELLUM_GALLERY_VIEWER_INLINE</option>
+                    <option value="modal">MOD_PANNELLUM_GALLERY_VIEWER_MODAL</option>
+                </field>
+                <field
+                    name="gallery_divider"
+                    type="radio"
+                    label="MOD_PANNELLUM_GALLERY_DIVIDER_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_DIVIDER_DESC"
+                    default="0"
+                    class="btn-group btn-group-yesno"
+                    showon="mode:gallery"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                    name="gallery_divider_color"
+                    type="color"
+                    label="MOD_PANNELLUM_GALLERY_DIVIDER_COLOR_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_DIVIDER_COLOR_DESC"
+                    default="#cccccc"
+                    showon="mode:gallery[AND]gallery_divider:1"
+                />
+                <field
+                    name="gallery_divider_width"
+                    type="number"
+                    label="MOD_PANNELLUM_GALLERY_DIVIDER_WIDTH_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_DIVIDER_WIDTH_DESC"
+                    default="1"
+                    min="1"
+                    max="5"
+                    showon="mode:gallery[AND]gallery_divider:1"
+                />
+                <field
+                    name="gallery_css_class"
+                    type="text"
+                    label="MOD_PANNELLUM_GALLERY_CSS_CLASS_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_CSS_CLASS_DESC"
+                    default=""
+                    showon="mode:gallery"
+                />
+                <field
+                    name="gallery_hover_effect"
+                    type="radio"
+                    label="MOD_PANNELLUM_GALLERY_HOVER_EFFECT_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_HOVER_EFFECT_DESC"
+                    default="1"
+                    class="btn-group btn-group-yesno"
+                    showon="mode:gallery"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="gallery_items"
+                    type="subform"
+                    label="MOD_PANNELLUM_GALLERY_ITEMS_LABEL"
+                    description="MOD_PANNELLUM_GALLERY_ITEMS_DESC"
+                    formsource="modules/mod_pannellum/forms/gallery_item.xml"
+                    multiple="true"
+                    buttons="add,remove,move"
+                    layout="joomla.form.field.subform.repeatable"
+                    showon="mode:gallery"
+                />
             </fieldset>
 
             <!-- SEKTION: Anzeigeoptionen (gilt für Single UND Multi) -->
@@ -267,8 +398,8 @@
                     description="MOD_PANNELLUM_HEIGHT_UNIT_DESC"
                     default="px"
                 >
-                    <option value="px">Pixel (px)</option>
-                    <option value="vh">Viewport Height (vh)</option>
+                    <option value="px">MOD_PANNELLUM_UNIT_PX</option>
+                    <option value="vh">MOD_PANNELLUM_UNIT_VH</option>
                 </field>
 
                 <field
@@ -278,7 +409,7 @@
                     description="MOD_PANNELLUM_HEIGHT_VALUE_DESC"
                     default="500"
                     min="100"
-                    hint="100-2000"
+                    hint="MOD_PANNELLUM_HINT_HEIGHT_RANGE"
                 />
 
                 <!-- Drop Shadow / Schattenwurf -->
@@ -303,7 +434,7 @@
                     min="-50"
                     max="50"
                     showon="shadow_enabled:1"
-                    hint="-50 bis 50 Pixel"
+                    hint="MOD_PANNELLUM_HINT_PIXEL_RANGE_50"
                 />
 
                 <field
@@ -315,7 +446,7 @@
                     min="-50"
                     max="50"
                     showon="shadow_enabled:1"
-                    hint="-50 bis 50 Pixel"
+                    hint="MOD_PANNELLUM_HINT_PIXEL_RANGE_50"
                 />
 
                 <field
@@ -327,7 +458,7 @@
                     min="0"
                     max="100"
                     showon="shadow_enabled:1"
-                    hint="0-100 Pixel"
+                    hint="MOD_PANNELLUM_HINT_PIXEL_RANGE_100"
                 />
 
                 <field
@@ -339,7 +470,7 @@
                     min="-50"
                     max="50"
                     showon="shadow_enabled:1"
-                    hint="-50 bis 50 Pixel"
+                    hint="MOD_PANNELLUM_HINT_PIXEL_RANGE_50"
                 />
 
                 <field
@@ -361,7 +492,7 @@
                     max="1"
                     step="0.1"
                     showon="shadow_enabled:1"
-                    hint="0.0 - 1.0"
+                    hint="MOD_PANNELLUM_HINT_OPACITY_RANGE"
                 />
 
                 <!-- Kompass -->
@@ -413,7 +544,7 @@
                     max="10"
                     step="0.5"
                     showon="auto_rotate:1"
-                    hint="-10 bis 10 Grad/Sekunde"
+                    hint="MOD_PANNELLUM_HINT_ROTATE_SPEED_RANGE"
                 />
 
                 <field
@@ -426,9 +557,24 @@
                     max="30000"
                     step="500"
                     showon="auto_rotate:1"
-                    hint="0-30000 Millisekunden"
+                    hint="MOD_PANNELLUM_HINT_DELAY_RANGE"
                 />
 
+            </fieldset>
+
+            <!-- Erweitert -->
+            <fieldset name="advanced" label="MOD_PANNELLUM_FIELDSET_ADVANCED">
+                <field
+                    name="debug_log"
+                    type="radio"
+                    label="MOD_PANNELLUM_DEBUG_LOG_LABEL"
+                    description="MOD_PANNELLUM_DEBUG_LOG_DESC"
+                    default="0"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
             </fieldset>
         </fields>
     </config>

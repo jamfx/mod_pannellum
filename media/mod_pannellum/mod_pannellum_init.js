@@ -2,6 +2,11 @@
 (function () {
   'use strict';
 
+  // Übersetzung über Joomla.Text (Texte werden per Text::script() aus den Sprachdateien bereitgestellt)
+  function t(key, fallback) {
+    return (window.Joomla && Joomla.Text && typeof Joomla.Text._ === 'function' && Joomla.Text._(key)) || fallback;
+  }
+
   function readConfigFor(el) {
     var cfgNode = document.getElementById(el.id + '-config');
     if (!cfgNode) {
@@ -274,12 +279,12 @@
     header.style.cssText = 'background: #2196F3; color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;';
 
     var title = document.createElement('h3');
-    title.textContent = 'Information';
+    title.textContent = t('MOD_PANNELLUM_JS_INFO_TITLE', 'Information');
     title.style.cssText = 'margin: 0; font-size: 18px; font-weight: 600;';
 
     var closeBtn = document.createElement('button');
     closeBtn.innerHTML = '&times;';
-    closeBtn.setAttribute('aria-label', 'Schließen');
+    closeBtn.setAttribute('aria-label', t('MOD_PANNELLUM_JS_CLOSE', 'Close'));
     closeBtn.style.cssText = 'background: none; border: none; color: white; font-size: 32px; line-height: 1; cursor: pointer; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s;';
 
     closeBtn.addEventListener('mouseenter', function() {
@@ -295,7 +300,14 @@
     // Content (verwendet innerHTML für HTML-Unterstützung - bereits sicher durch safehtml filter)
     var content = document.createElement('div');
     content.className = 'info-hotspot-content';
-    content.innerHTML = args.text || '<p style="color: #999; font-style: italic;">Keine Information verfügbar</p>';
+    if (args.text) {
+      content.innerHTML = args.text;
+    } else {
+      var empty = document.createElement('p');
+      empty.style.cssText = 'color: #999; font-style: italic;';
+      empty.textContent = t('MOD_PANNELLUM_JS_NO_INFO', 'No information available');
+      content.appendChild(empty);
+    }
     content.style.cssText = 'padding: 20px; overflow-y: auto; flex: 1; color: #333; line-height: 1.6; font-size: 15px;';
 
     infoBox.appendChild(header);

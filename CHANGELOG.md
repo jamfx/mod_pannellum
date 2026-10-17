@@ -2,6 +2,30 @@
 
 All notable changes to the Pannellum 360° Viewer module will be documented in this file.
 
+## [1.1.0] - 2026-10-16
+
+### Added
+
+- **Gallery mode**: display multiple panoramas in a configurable, responsive grid (2/3/4 columns, gap, aspect ratio 16:9 / 4:3 / 1:1)
+- **Thumbnail generation** with a correct equirectangular-to-perspective projection (PHP GD, bilinear interpolation); thumbnails are created automatically when the module is saved and stored in `images/mod_pannellum/thumbnails/`
+- **Large panoramas**: images above 4096×2048 px are downscaled before processing (ImageMagick command line → Imagick extension → GD with memory check), tested with 15520×7760 px drone panoramas
+- **Inline and modal/lightbox** viewer modes; only one viewer is active at a time, also across several galleries on one page
+- Optional **divider** between gallery items (color and width), configurable **hover effect**, custom **CSS class**
+- Display options (height, shadow, compass, auto-rotation) also apply to the gallery
+- Full **keyboard navigation and accessibility** (ARIA labels, alt texts, focus handling)
+- Automatic **cleanup** of thumbnails that are no longer used; thumbnails are removed on uninstall
+- **Debug log** switch (tab "Advanced") for support: writes `logs/mod_pannellum.log.php` without IP addresses
+- Notice on installation if the PHP GD extension is missing
+- Hint above the gallery entries and a progress overlay while saving (thumbnails are created during save)
+
+### Changed
+
+- Faster downscaling of large JPEG panoramas (about 2.4× faster and a quarter of the memory in tests)
+- Module restructured to the current Joomla 5/6 conventions: service provider, dispatcher, helper classes and namespaced form field/rule classes (namespace `Nikomat\Module\Pannellum`); the legacy `mod_pannellum.php` entry file was removed
+- All remaining hard-coded texts (field hints, units, JavaScript messages) moved to the language files (German and English)
+- "Auto load" now defaults to "No" for new modules
+- License headers and metadata unified to GPL v3 or later
+
 ## [1.0.1] - 2026-08-29
 
 ### Fixed

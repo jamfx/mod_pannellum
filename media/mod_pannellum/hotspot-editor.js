@@ -6,6 +6,15 @@
   function warn(msg, data){ try{ console.warn('[Hotspot-Editor WARN]', msg, data||''); }catch(e){} }
   function err(msg, data){ try{ console.error('[Hotspot-Editor ERROR]', msg, data||''); }catch(e){} }
 
+  // Übersetzung über Joomla.Text (Texte werden per Text::script() aus den Sprachdateien bereitgestellt)
+  function t(key, fallback, vars){
+    var s = (window.Joomla && Joomla.Text && typeof Joomla.Text._ === 'function' && Joomla.Text._(key)) || fallback;
+    if(vars){ Object.keys(vars).forEach(function(k){ s = s.split('{'+k+'}').join(vars[k]); }); }
+    return s;
+  }
+  function esc(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+
   // ========== URL HELPER ==========
   function stripAdmin(p){ return p.replace(/\/administrator(\/|$)/i, '/'); }
   function resolveMediaUrl(raw){
@@ -484,7 +493,7 @@
         setFieldValue(p1, pitch);
         await sleep(100);
         setFieldValue(y1, yaw);
-        showConfirm('✓ Hotspot übernommen: Pitch '+pitch+', Yaw '+yaw);
+        showConfirm(t('MOD_PANNELLUM_JS_HS_TAKEN','✓ Hotspot applied: Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
         return true;
       }
     }
@@ -493,14 +502,14 @@
     var container = getHotspotsContainer(context, isSingle);
     if(!container){
       err('Container nicht gefunden!');
-      showError('✗ Container nicht gefunden. Bitte manuell: Pitch '+pitch+', Yaw '+yaw);
+      showError(t('MOD_PANNELLUM_JS_HS_ERR_CONTAINER','✗ Container not found. Please enter manually: Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
       return false;
     }
 
     var add = findAddButton(container);
     if(!add){
       err('Add-Button nicht gefunden!');
-      showError('✗ Add-Button nicht gefunden. Bitte manuell: Pitch '+pitch+', Yaw '+yaw);
+      showError(t('MOD_PANNELLUM_JS_HS_ERR_ADD_BUTTON','✗ Add button not found. Please enter manually: Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
       return false;
     }
 
@@ -515,7 +524,7 @@
 
     if(!newRow){
       err('Neue Zeile nicht erkannt!');
-      showError('✗ Neue Zeile nicht erkannt. Bitte manuell: Pitch '+pitch+', Yaw '+yaw);
+      showError(t('MOD_PANNELLUM_JS_HS_ERR_NEW_ROW','✗ New row not detected. Please enter manually: Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
       return false;
     }
 
@@ -530,7 +539,7 @@
 
     if(!p2 || !y2){
       err('Felder nicht gefunden!');
-      showError('✗ Felder nicht gefunden. Bitte manuell: Pitch '+pitch+', Yaw '+yaw);
+      showError(t('MOD_PANNELLUM_JS_HS_ERR_FIELDS','✗ Fields not found. Please enter manually: Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
       return false;
     }
 
@@ -554,7 +563,7 @@
 
     if(p2.value === pitch && y2.value === yaw){
       log('✓✓✓ ERFOLGREICH ✓✓✓');
-      showConfirm('✓ Hotspot erfolgreich hinzugefügt: Pitch '+pitch+', Yaw '+yaw);
+      showConfirm(t('MOD_PANNELLUM_JS_HS_ADDED','✓ Hotspot added successfully: Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
 
       // Visual Feedback
       try {
@@ -580,11 +589,11 @@
 
       if(p2.value === pitch && y2.value === yaw){
         log('✓ Zweiter Versuch erfolgreich!');
-        showConfirm('✓ Hotspot hinzugefügt (2. Versuch): Pitch '+pitch+', Yaw '+yaw);
+        showConfirm(t('MOD_PANNELLUM_JS_HS_ADDED_RETRY','✓ Hotspot added (2nd attempt): Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
         return true;
       } else {
         err('✗ Beide Versuche fehlgeschlagen!');
-        showError('✗ Felder konnten nicht befüllt werden. Bitte manuell: Pitch '+pitch+', Yaw '+yaw);
+        showError(t('MOD_PANNELLUM_JS_HS_ERR_FILL','✗ Fields could not be filled. Please enter manually: Pitch {pitch}, Yaw {yaw}',{pitch: pitch, yaw: yaw}));
         return false;
       }
     }
@@ -701,12 +710,12 @@
       '<div class="hotspot-editor-backdrop"></div>'+
       '<div class="hotspot-editor-dialog">'+
         '<div class="hotspot-editor-header">'+
-          '<h3>Hotspot-Editor</h3>'+
+          '<h3>'+esc(t('MOD_PANNELLUM_JS_HS_EDITOR_TITLE','Hotspot Editor'))+'</h3>'+
           '<div class="hotspot-editor-tools">'+
-            '<button type="button" class="btn btn-success js-hs-add"><i class="fa fa-plus"></i> Hotspot hinzufügen</button>'+
-            '<button type="button" class="btn btn-info js-hs-refresh" style="margin-left:8px;"><i class="fa fa-sync"></i> Aktualisieren</button>'+
+            '<button type="button" class="btn btn-success js-hs-add"><i class="fa fa-plus"></i> '+esc(t('MOD_PANNELLUM_JS_HS_ADD','Add hotspot'))+'</button>'+
+            '<button type="button" class="btn btn-info js-hs-refresh" style="margin-left:8px;"><i class="fa fa-sync"></i> '+esc(t('MOD_PANNELLUM_JS_HS_REFRESH','Refresh'))+'</button>'+
           '</div>'+
-          '<button type="button" class="close" aria-label="Close">&times;</button>'+
+          '<button type="button" class="close" aria-label="'+esc(t('MOD_PANNELLUM_JS_CLOSE','Close'))+'">&times;</button>'+
         '</div>'+
         '<div class="hotspot-editor-body">'+
           '<div id="hotspotViewer" class="hotspot-viewer" style="min-height:60vh;height:60vh;width:100%;"></div>'+
@@ -738,16 +747,16 @@
     state.capture = true;
     document.body.style.cursor = 'crosshair';
     var b = document.querySelector('#hotspotEditorModal .js-hs-add');
-    if(b){ b.classList.add('is-armed'); b.disabled = true; b.innerHTML = '<i class="fa fa-crosshairs"></i> Klicke ins Panorama…'; }
+    if(b){ b.classList.add('is-armed'); b.disabled = true; b.innerHTML = '<i class="fa fa-crosshairs"></i> ' + esc(t('MOD_PANNELLUM_JS_HS_ARMED','Click in the panorama…')); }
     var hint = document.getElementById('hs-inline-hint');
-    if(hint){ hint.textContent = 'Klicke ins Panorama, um die Hotspot-Position zu setzen…'; hint.style.display='block'; }
+    if(hint){ hint.textContent = t('MOD_PANNELLUM_JS_HS_ARMED_HINT','Click in the panorama to set the hotspot position…'); hint.style.display='block'; }
   }
 
   function disarm(){
     state.capture = false;
     document.body.style.cursor = '';
     var b = document.querySelector('#hotspotEditorModal .js-hs-add');
-    if(b){ b.classList.remove('is-armed'); b.disabled = false; b.innerHTML = '<i class="fa fa-plus"></i> Hotspot hinzufügen'; }
+    if(b){ b.classList.remove('is-armed'); b.disabled = false; b.innerHTML = '<i class="fa fa-plus"></i> ' + esc(t('MOD_PANNELLUM_JS_HS_ADD','Add hotspot')); }
     var hint = document.getElementById('hs-inline-hint'); if(hint) hint.style.display='none';
   }
 
@@ -882,7 +891,7 @@
     log('=== HOTSPOT-EDITOR ÖFFNEN ===', {isSingle: isSingle, context: context});
 
     if(!context){
-      alert('Kontext konnte nicht gefunden werden.');
+      alert(t('MOD_PANNELLUM_JS_HS_ERR_CONTEXT','Context could not be found.'));
       return;
     }
 
@@ -907,12 +916,12 @@
     }
 
     if(!imageField){
-      alert('Bild-Feld konnte nicht gefunden werden. Kontext: ' + (context.tagName || 'unknown'));
+      alert(t('MOD_PANNELLUM_JS_HS_ERR_IMAGE_FIELD','Image field could not be found. Context: {context}',{context: context.tagName || 'unknown'}));
       return;
     }
 
     if(!imageField.value || imageField.value.trim() === ''){
-      alert('Bitte zuerst ein Panoramabild auswählen.');
+      alert(t('MOD_PANNELLUM_JS_HS_ERR_NO_IMAGE','Please select a panorama image first.'));
       return;
     }
 
@@ -923,7 +932,7 @@
     });
 
     if(!imageUrl || imageUrl === ''){
-      alert('Bild-URL konnte nicht aufgelöst werden: ' + imageField.value);
+      alert(t('MOD_PANNELLUM_JS_HS_ERR_IMAGE_URL','Image URL could not be resolved: {value}',{value: imageField.value}));
       return;
     }
 

@@ -1,25 +1,30 @@
 <?php
 /**
  * @package     mod_pannellum
- * @version     1.0.1
+ * @version     1.1.0
  * @author      Niko Winckel
  * @copyright   (C) 2025 Niko Winckel. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
  * @link        https://nik-o-mat.de
  *
  * Pannellum 360° Viewer – Hotspot Editor Button Field
  */
-defined('_JEXEC') or die;
+
+namespace Nikomat\Module\Pannellum\Site\Field;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 
-class JFormFieldHotspoteditorbutton extends FormField
+class HotspotEditorButtonField extends FormField
 {
-    protected $type = 'hotspoteditorbutton';
+    protected $type = 'HotspotEditorButton';
 
-    protected function getInput()
+    protected function getInput(): string
     {
         $app = Factory::getApplication();
         $doc = $app->getDocument();
@@ -48,17 +53,44 @@ class JFormFieldHotspoteditorbutton extends FormField
             $wa->useStyle('fontawesome');
         }
 
-        // Label/Hinweis
-        $label = Text::_('MOD_PANNELLUM_HOTSPOT_EDITOR_OPEN') ?: 'Hotspot-Editor';
-        $hint  = Text::_('MOD_PANNELLUM_HOTSPOT_EDITOR_HINT') ?: 'Laden Sie zuerst ein Panoramabild hoch, klicken Sie dann auf "Hotspot-Editor öffnen" und klicken Sie im Panorama auf die gewünschte Position. Die Koordinaten werden automatisch übernommen.';
+        // Texte für die Backend-JavaScripts (Joomla.Text)
+        foreach ([
+            'MOD_PANNELLUM_JS_HS_EDITOR_TITLE',
+            'MOD_PANNELLUM_JS_HS_ADD',
+            'MOD_PANNELLUM_JS_HS_REFRESH',
+            'MOD_PANNELLUM_JS_HS_ARMED',
+            'MOD_PANNELLUM_JS_HS_ARMED_HINT',
+            'MOD_PANNELLUM_JS_HS_TAKEN',
+            'MOD_PANNELLUM_JS_HS_ADDED',
+            'MOD_PANNELLUM_JS_HS_ADDED_RETRY',
+            'MOD_PANNELLUM_JS_HS_ERR_CONTAINER',
+            'MOD_PANNELLUM_JS_HS_ERR_ADD_BUTTON',
+            'MOD_PANNELLUM_JS_HS_ERR_NEW_ROW',
+            'MOD_PANNELLUM_JS_HS_ERR_FIELDS',
+            'MOD_PANNELLUM_JS_HS_ERR_FILL',
+            'MOD_PANNELLUM_JS_HS_ERR_CONTEXT',
+            'MOD_PANNELLUM_JS_HS_ERR_IMAGE_FIELD',
+            'MOD_PANNELLUM_JS_HS_ERR_NO_IMAGE',
+            'MOD_PANNELLUM_JS_HS_ERR_IMAGE_URL',
+            'MOD_PANNELLUM_JS_VAL_TITLE',
+            'MOD_PANNELLUM_JS_VAL_MISSING',
+            'MOD_PANNELLUM_JS_VAL_AVAILABLE',
+            'MOD_PANNELLUM_JS_VAL_FALLBACK',
+            'MOD_PANNELLUM_JS_VAL_FOUND',
+            'MOD_PANNELLUM_JS_CLOSE',
+        ] as $key) {
+            Text::script($key);
+        }
 
-        // WICHTIG: Button wird hier direkt gerendert
-        // KORREKTUR: $hint wird NICHT durch htmlspecialchars gejagt, damit der Text normal angezeigt wird
+        // Label/Hinweis (aus den Sprachdateien)
+        $label = Text::_('MOD_PANNELLUM_HOTSPOT_EDITOR_OPEN');
+        $hint  = Text::_('MOD_PANNELLUM_HOTSPOT_EDITOR_HINT');
+
         $html  = [];
         $html[] = '<div class="control-group hotspot-editor-field-container">';
         $html[] = '  <div class="control-label"><label>' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '</label></div>';
         $html[] = '  <div class="controls hotspot-editor-trigger">';
-        $html[] = '    <div class="alert alert-info" style="margin-bottom:10px;">' . $hint . '</div>';
+        $html[] = '    <div class="alert alert-info" style="margin-bottom:10px;">' . htmlspecialchars($hint, ENT_QUOTES, 'UTF-8') . '</div>';
         $html[] = '    <div class="hotspot-editor-button-container">';
         $html[] = '      <button type="button" class="btn btn-primary hotspot-editor-button">';
         $html[] = '        <i class="fa fa-map-marker-alt" aria-hidden="true"></i> ' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
