@@ -719,3 +719,6 @@ Thumbs.db
 *.zip
 dist/
 build/
+
+# Lokale Projekthinweise für Claude Code
+CLAUDE.md
